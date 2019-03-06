@@ -1,10 +1,5 @@
-from tkinter import *
 import time
-import shelve
-import socket
-import os
 import winsound
-import tkinter.ttk as ttk
 from win32api import GetSystemMetrics
 from scripts.ControlButton import *
 from threading import Thread
@@ -14,7 +9,6 @@ import multiprocessing
 
 class VrTimerTimer(object):
     def __init__(self):
-        print('def __init__(self):')
         self.settings_folder = 'users'+'//'+socket.gethostname()
         self.settings_file = self.settings_folder+'//'+"Vr_timer_data"
         self.timer_start = False
@@ -32,7 +26,6 @@ class VrTimerTimer(object):
         self.max_screen_y = GetSystemMetrics(1)
 
     def start(self):
-        print('def start(self):')
         self.make_settings_file()
         self.load_variables()
         self.config_timer_window()
@@ -62,7 +55,6 @@ class VrTimerTimer(object):
             var['price_window_y'] = re.split('\+', self.price_window.geometry())[2]
 
     def load_variables(self):
-        print('def load_variables(self):')
         with shelve.open(self.settings_file) as var1:
             self.font_size = var1.get("font_size", 50)
             self.font = var1.get('font', 'Impact')
@@ -74,12 +66,10 @@ class VrTimerTimer(object):
             self.price_window_y = var1.get("price_window_y", 0)
 
     def make_settings_file(self):
-        print('def make_settings_file(self):')
         if not os.path.exists(self.settings_folder):
             os.makedirs(self.settings_folder)
 
     def config_timer_window(self):
-        print('def config_timer_window(self):')
         self.root = Tk()
         self.root.overrideredirect(1)  # Убрать кнопку крестик итд и из панели задач
         self.root.geometry('+%s+%s' % (self.timer_window_x, self.timer_window_y))
@@ -138,8 +128,6 @@ class VrTimerTimer(object):
 
     def set_font_size(self, font_size):
         self.font_size += font_size
-        print('Set font size to ', self.font_size)
-
         self.timer_label_sec.configure(font=(self.font, self.font_size))
         self.timer_label_min.configure(font=(self.font, self.font_size))
         self.timer_label_hours.configure(font=(self.font, self.font_size))
@@ -235,7 +223,6 @@ class VrTimerTimer(object):
         self.set_timer_text()
 
     def right_mouse(self, *args):
-        print('Right mouse')
         if self.control_button_open:
             self.forget_timer_control_button()
             self.control_button_open = False
@@ -276,12 +263,10 @@ class VrTimerTimer(object):
     def on_mouse_press(self, event):
         self.start_x = event.x
         self.start_y = event.y
-        print(self.start_x, self.start_y)
 
     def on_mouse_move(self, event, window):
         window_size = re.split('\+', window.geometry())[0]
         window_x_y = re.split('x', window_size)
-        print(window_x_y)
         rect = re.fullmatch(r'\d+x\d+\+(?P<x>-?\d+)\+(?P<y>-?\d+)', window.geometry())
         x = int(rect['x']) + (event.x - self.start_x)
         if x <= 0:
@@ -298,7 +283,6 @@ class VrTimerTimer(object):
         self.save_variables()
 
     def right_mouse_on_root(self, *args):
-        print('Right mouse')
         if self.control_button_open:
             self.forget_timer_control_button()
             self.control_button_open = False
@@ -322,7 +306,6 @@ class VrTimerTimer(object):
         self.close_button.grid(row=0, column=9,sticky=N + S + W + E)
 
     def forget_timer_control_button(self):
-        print('def forget_timer_control_button(self):')
         self.plus_1_hour_button.grid_forget()
         self.plus_10_min_button.grid_forget()
         self.plus_1_min_button.grid_forget()
@@ -413,16 +396,10 @@ class VrTimerTimer(object):
                 try:
                     widget.config(bg=color)
                 except:
-                    print('Цвет не установлен')
+                    pass
 
     def set_label_size(self):
-        '''
-        widget = self.remain_label
-        size = int(re.split('x', widget.winfo_geometry())[0])
-        size = size
-        widget.winfo_geometry('100x100')
-        print(size)
-'''
+        pass
 
     def calculate_price(self):
         default_price = [
@@ -440,7 +417,6 @@ class VrTimerTimer(object):
         self.price_label.config(text=price)
 
     def return_seconds(self):
-        print('def return_seconds(self):')
         return self.seconds
 
 

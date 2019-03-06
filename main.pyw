@@ -449,7 +449,6 @@ def create_timer():
     vr_timer.start()
 
 
-
 if __name__ == "__main__":
     timer_process = multiprocessing.Process(target=create_timer)
     timer_process.start()
@@ -457,8 +456,6 @@ if __name__ == "__main__":
     listner_process = multiprocessing.Process(target=receive)
     listner_process.start()
 
-    # vr_timer = VrTimerTimer()
-    # vr_timer.start()
 
 
 
